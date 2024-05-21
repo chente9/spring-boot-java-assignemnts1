@@ -10,6 +10,11 @@ import java.util.Optional;
 public class UsersServiceMap implements UsersService {
 
     @Override
+    public User createUser(User user) {
+        return null;
+    }
+
+    @Override
     public User save(User user) {
         return null;
     }
@@ -32,5 +37,10 @@ public class UsersServiceMap implements UsersService {
     @Override
     public User update(User user, String userId) {
         return null;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return List.of();
     }
 }

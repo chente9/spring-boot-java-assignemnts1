@@ -106,4 +106,7 @@ public class Product {
         this.price = productDto.getPrice();
         this.imageUrl = productDto.getImageUrl();
     }
+
+    public void setId(String id) {
+    }
 }

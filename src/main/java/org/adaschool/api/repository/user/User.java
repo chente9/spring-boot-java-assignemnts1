@@ -76,4 +76,7 @@ public class User {
             this.passwordHash = new BCryptPasswordEncoder().encode(userDto.getPassword());
         }
     }
+
+    public void setId(String id) {
+    }
 }

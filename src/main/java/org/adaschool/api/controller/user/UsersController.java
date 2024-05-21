@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/users/")
@@ -17,67 +18,52 @@ public class UsersController {
 
     private final UsersService usersService;
 
-    public UsersController(@Autowired UsersService usersService) {
+    @Autowired
+    public UsersController(UsersService usersService) {
         this.usersService = usersService;
     }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        // Utilize the UserService to create the new user
-        User createdUser = usersService.createUser(user);
+        User createdUser = usersService.save(user);
 
-        // Create the URI of the created resource
         URI createdUserUri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdUser.getId())
                 .toUri();
 
-        // Return a response with status code 201 Created and the created user in the body of the response
         return ResponseEntity.created(createdUserUri).body(createdUser);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        //Me from here
-        List<User> users = usersService.getAllUsers();
-        //To here
-        return ResponseEntity.ok(null);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<User> findById(@PathVariable("id") String id) {
-        //Me from here
         User user = usersService.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
-        //To here
-        // Devolver una respuesta con código de estado 200 OK y el usuario en el cuerpo de la respuesta
-        return ResponseEntity.ok(null);
-
+        return ResponseEntity.ok(user);
     }
 
-
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody User updatedUser) {
-        //Me from here
-        User user = UsersService.updateUser(updatedUser);
-          // return usersService.updateUser(updatedUser);
-
-            //if (user != null) {
-            //  return ResponseEntity.ok(user);
-            //} else {
-            //To here
-            return ResponseEntity.ok(null);
+    @PutMapping("{id}")
+    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User updatedUser) {
+        if (usersService.findById(id).isPresent()) {
+            updatedUser.setId(id);
+            User savedUser = usersService.save(updatedUser);
+            return ResponseEntity.ok(savedUser);
+        } else {
+            throw new UserNotFoundException(id);
         }
+    }
 
-
-    @DeleteMapping
-    public ResponseEntity<Void> deleteUser(String id) {
-        //Me from here
-        UsersService.deleteUser(id);
-        //To here
-        return ResponseEntity.ok().build();
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
+        if (usersService.findById(id).isPresent()) {
+            usersService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            throw new UserNotFoundException(id);
+        }
     }
 }
+
 
 
 

@@ -44,7 +44,8 @@ public class UsersController {
 
     @PutMapping("{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User updatedUser) {
-        if (usersService.findById(id).isPresent()) {
+        Optional<User> existingUser = usersService.findById(id);
+        if (existingUser.isPresent()) {
             updatedUser.setId(id);
             User savedUser = usersService.save(updatedUser);
             return ResponseEntity.ok(savedUser);

@@ -72,9 +72,9 @@ public class ProductsControllerTest {
 
     @Test
     public void testSaveNewProduct() throws Exception {
-        Product Product = new Product("1", "Whole Milk", "Whole Milk 200ml", "Dairy", 15.488);
+        Product product = new Product("1", "Whole Milk", "Whole Milk 200ml", "Dairy", 15.488);
 
-        when(productsService.save(any())).thenReturn(Product);
+        when(productsService.save(any())).thenReturn(product);
 
         String json = "{\"name\":\"Whole Milk\",\"description\":\"Whole Milk 200ml\",\"category\":\"Dairy\",\"price\":15.488}";
 

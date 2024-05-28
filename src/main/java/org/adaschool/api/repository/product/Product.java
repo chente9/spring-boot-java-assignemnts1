@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Product {
 
-    private final String id;
+    private String id;
 
     private String name;
 
@@ -108,6 +108,6 @@ public class Product {
     }
 
     public void setId(String id) {
-
+        this.id = id;
     }
 }

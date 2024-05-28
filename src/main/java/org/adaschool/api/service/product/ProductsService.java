@@ -1,7 +1,6 @@
 package org.adaschool.api.service.product;
 
 import org.adaschool.api.repository.product.Product;
-import org.adaschool.api.repository.user.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +15,13 @@ public interface ProductsService {
 
     void deleteById(String id);
 
-    Product update(Product Product, String ProductId);
+    Product createdProduct(Product product);
 
-    User createdProduct(Product product);
 
     Product createProduct(Product product);
+
+
+    Product createdProduct();
 
     List<Product> getAllProducts();
 }
